@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles({
   root: {
     flexGrow: 1,
+    padding: "1em 0.5em 3em 0.5em",
   },
 });
 

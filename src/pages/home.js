@@ -14,12 +14,12 @@ const useStyles = makeStyles({
 
 const Home = () => {
   const classes = useStyles();
-  const hasUser = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <Grid container className={classes.wrapper} justify="center">
-      {hasUser && <ResultsList />}
-      {!hasUser && <LandingPage />}
+      {user && <ResultsList />}
+      {!user && <LandingPage />}
     </Grid>
   );
 };

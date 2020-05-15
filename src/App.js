@@ -1,10 +1,8 @@
-/* eslint-disable operator-linebreak */
-import React, { useState, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Grid } from "@material-ui/core";
 import Navbar from "./layout/Navbar";
-import Footer from "./layout/Footer";
 import BottomMenu from "./layout/BottomMenu";
 import MainContent from "./layout/MainContent";
 import Home from "./pages/home";
@@ -13,33 +11,35 @@ import History from "./pages/history";
 import DataContextProvider from "./helpers/DataContextProvider";
 import ThemeContextProvider from "./layout/ThemeContextProvider";
 import { AuthContext } from "./auth/AuthContextProvider";
+import Signup from "./pages/signup";
+import Login from "./pages/login";
+import PrivateRoute from "./components/PrivateRoute";
+import AddResultForm from "./components/forms/AddResultForm";
 
 function App() {
-  const darkModeLocalStorage =
-    localStorage.getItem("darkMode") === null
-      ? false
-      : JSON.parse(localStorage.getItem("darkMode"));
-
-  const [darkMode, setDarkMode] = useState(darkModeLocalStorage);
-
-  const hasUser = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <Router>
-      <ThemeContextProvider darkMode={darkMode}>
+      <ThemeContextProvider>
         <DataContextProvider>
           <CssBaseline />
           <Grid container direction="column" style={{ minHeight: "100vh" }}>
-            <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+            <Navbar />
             <MainContent>
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route path="/charts" component={Charts} />
+                <PrivateRoute path="/charts" component={Charts} />
+                <PrivateRoute path="/history" component={History} />
                 <Route path="/history" component={History} />
+                <Route path="/signup">
+                  {user ? <Redirect push to="/" /> : <Signup />}
+                </Route>
+                <Route path="/login">{user ? <Redirect push to="/" /> : <Login />}</Route>
               </Switch>
+              <AddResultForm />
             </MainContent>
-            {hasUser && <BottomMenu />}
-            <Footer />
+            {user && <BottomMenu />}
           </Grid>
         </DataContextProvider>
       </ThemeContextProvider>

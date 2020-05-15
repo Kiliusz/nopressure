@@ -4,18 +4,19 @@ import ResultCard from "./ResultCard";
 import { DataContext } from "../helpers/DataContextProvider";
 
 const ResultsList = () => {
-  const numberOfItemsToDisplay = 10;
-  const listOfPressureResults = useContext(DataContext).slice(0, numberOfItemsToDisplay);
-
-  return listOfPressureResults.map(({ up, down, pulse, timestamps }) => (
-    <ResultCard
-      key={timestamps}
-      upPressure={up}
-      downPressure={down}
-      pulse={pulse}
-      time={moment(new Date(timestamps)).format("lll")}
-    />
-  ));
+  const { initialData } = useContext(DataContext);
+  if (initialData) {
+    return initialData.map(({ up, down, pulse, dateOfMeasurement }) => (
+      <ResultCard
+        key={Math.random()}
+        upPressure={parseFloat(up)}
+        downPressure={parseFloat(down)}
+        pulse={parseFloat(pulse)}
+        time={moment(new Date(parseFloat(dateOfMeasurement))).format("lll")}
+      />
+    ));
+  }
+  return null;
 };
 
 export default ResultsList;

@@ -1,30 +1,22 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-import Brightness4Icon from "@material-ui/icons/Brightness4";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AppBar, Grid, Toolbar } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import PropTypes from "prop-types";
+import logo from "../assets/logo.svg";
+import LogoutButton from "../components/LogoutButton";
+import DarkModeSelect from "../components/DarkModeSelect";
+import { AuthContext } from "../auth/AuthContextProvider";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: "800px",
     margin: "0 auto",
   },
-  darkModeIconContainer: {
-    display: "flex",
-  },
 });
 
-const Navbar = ({ setDarkMode, darkMode }) => {
+const Navbar = () => {
   const classes = useStyles();
-
-  const ChangeDarkMode = () => {
-    localStorage.setItem("darkMode", !darkMode);
-    setDarkMode(!darkMode);
-  };
+  const { user } = useContext(AuthContext);
   return (
     <AppBar position="static">
       <Toolbar>
@@ -34,25 +26,15 @@ const Navbar = ({ setDarkMode, darkMode }) => {
           justify="space-between"
           alignItems="center"
         >
-          <Grid item>Logo</Grid>
+          <Grid item component={Link} to="/">
+            <img src={logo} alt="App logo NoPressure" />
+          </Grid>
           <Grid item>
-            <Grid container>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={darkMode}
-                    onChange={ChangeDarkMode}
-                    name="darkModeSwitch"
-                  />
-                }
-                label={
-                  <Brightness4Icon
-                    fontSize="small"
-                    className={classes.darkModeIconContainer}
-                  />
-                }
-                labelPlacement="start"
-              />
+            <Grid container alignItems="center">
+              <Grid item>{user && <LogoutButton />}</Grid>
+              <Grid item>
+                <DarkModeSelect />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -61,8 +43,3 @@ const Navbar = ({ setDarkMode, darkMode }) => {
   );
 };
 export default Navbar;
-
-Navbar.propTypes = {
-  setDarkMode: PropTypes.func.isRequired,
-  darkMode: PropTypes.bool.isRequired,
-};

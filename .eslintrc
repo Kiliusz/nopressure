@@ -1,6 +1,8 @@
 {
   "extends": ["react-app", "airbnb"],
   "rules": {
+    "arrow-body-style": "off",
+    "no-unused-vars": "warn",
     "quotes": [2, "double", "avoid-escape"],
     "react/jsx-filename-extension": [
       1,
@@ -9,8 +11,10 @@
       }
     ],
     "linebreak-style": 0,
+    "react/jsx-props-no-spreading": "off",
     "react/jsx-one-expression-per-line": "off",
     "no-console": "off",
+    "react/prop-types": "off",
     "object-curly-newline": "off",
     "arrow-parens": "off",
     "implicit-arrow-linebreak": "off",

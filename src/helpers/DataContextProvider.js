@@ -1,13 +1,32 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import PropTypes from "prop-types";
-import dummyData from "./dummyData";
+import { getAllResults, getResults } from "../database/databaseHelpers";
+import { AuthContext } from "../auth/AuthContextProvider";
 
 export const DataContext = createContext();
 
 const DataContextProvider = ({ children }) => {
-  const [mainData, setMainData] = useState(dummyData);
+  const { user } = useContext(AuthContext);
+  const [initialData, setInitialData] = useState(null);
+  const [allData, setAllData] = useState(null);
 
-  return <DataContext.Provider value={mainData}>{children}</DataContext.Provider>;
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("useffect datacontext");
+  //     getResults(user.uid, 10)
+  //       .then((results) => {
+  //         setInitialData(results);
+  //         // console.log(results);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, [user]);
+
+  return (
+    <DataContext.Provider value={{ initialData, setInitialData, allData, setAllData }}>
+      {children}
+    </DataContext.Provider>
+  );
 };
 
 export default DataContextProvider;

@@ -1,14 +1,23 @@
-import React from "react";
+/* eslint-disable operator-linebreak */
+import React, { useState } from "react";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-// import { orange, green, blue, red, indigo } from "@material-ui/core/colors";
+
 import PropTypes from "prop-types";
 
-const ThemeContextProvider = ({ children, darkMode }) => {
+const ThemeContextProvider = ({ children }) => {
+  const darkModeLocSt =
+    localStorage.getItem("darkMode") === null
+      ? false
+      : JSON.parse(localStorage.getItem("darkMode"));
+
+  const [darkMode, setDarkMode] = useState(darkModeLocSt);
+
   const theme = createMuiTheme({
+    darkMode,
+    setDarkMode,
     palette: {
       primary: {
-        main: "#1565c0",
-        // main: blue[500],
+        main: darkMode ? "#4587d1" : "#1565c0",
       },
       secondary: {
         main: "#e53935",
@@ -24,5 +33,4 @@ export default ThemeContextProvider;
 
 ThemeContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  darkMode: PropTypes.bool.isRequired,
 };

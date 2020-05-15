@@ -7,9 +7,19 @@ import HomeIcon from "@material-ui/icons/Home";
 import ShowChartIcon from "@material-ui/icons/ShowChart";
 import HistoryIcon from "@material-ui/icons/History";
 import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  bottomNavi: {
+    position: "fixed",
+    bottom: "0",
+    width: "100%",
+    marginTop: "2000px",
+  },
+});
 
 const BottomMenu = ({ location }) => {
-  //   const classes = useStyles();
+  const classes = useStyles();
 
   const [value, setValue] = useState(location.pathname);
 
@@ -17,11 +27,10 @@ const BottomMenu = ({ location }) => {
     <BottomNavigation
       value={value}
       onChange={(event, newValue) => {
-        console.log(newValue);
         setValue(newValue);
       }}
       showLabels
-      // className={classes.root}
+      className={classes.bottomNavi}
     >
       <BottomNavigationAction
         value="/"
