@@ -24,8 +24,9 @@ export const addResult = (userId, up, down, pulse, dateOfMeasurement) => {
 export const getAllResults = async (userId) => {
   const data = [];
   await resultsCollectionRef(userId)
+    .orderBy("dateOfMeasurement", "desc")
     .get()
-    .then((docs) => docs.forEach((doc) => data.push(doc.data())))
+    .then((docs) => docs.forEach((doc) => data.push({ docId: doc.id, ...doc.data() })))
     .catch((err) => data.push(err));
   return data;
 };
@@ -33,10 +34,10 @@ export const getAllResults = async (userId) => {
 export const getResults = async (userId, resultNumber = 10) => {
   const data = [];
   await resultsCollectionRef(userId)
-    .orderBy("dateOfMeasurement")
+    .orderBy("dateOfMeasurement", "desc")
     .limit(resultNumber)
     .get()
-    .then((docs) => docs.forEach((doc) => data.push(doc.data())))
+    .then((docs) => docs.forEach((doc) => data.push({ docId: doc.id, ...doc.data() })))
     .catch((err) => data.push(err));
   return data;
 };

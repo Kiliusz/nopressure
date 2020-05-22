@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import "date-fns";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,18 +8,23 @@ import {
   Button,
   FormControl,
   makeStyles,
-  Typography,
-  Link as MuiLink,
   Grid,
   Container,
   Paper,
 } from "@material-ui/core";
 import CustomDatePicker from "../customInputs/CustomDatePicker";
+import { addResult } from "../../database/databaseHelpers";
+import { AuthContext } from "../../auth/AuthContextProvider";
+import { DataContext } from "../../database/DataContextProvider";
+import sortByProperty from "../../database/dataHelpers";
 
 const useStyles = makeStyles((theme) => ({
   form: {
     [theme.breakpoints.up("sm")]: {
-      maxWidth: "600px",
+      maxWidth: "550px",
+    },
+    [theme.breakpoints.down("xs")]: {
+      maxWidth: "98%",
     },
     margin: "1em auto",
   },
@@ -40,9 +45,10 @@ const SignupSchema = Yup.object().shape({
 });
 
 // COMPONENT
-const AddResultForm = ({ history }) => {
+const AddResultForm = ({ closeModal }) => {
+  const { user } = useContext(AuthContext);
+  const { setAppData } = useContext(DataContext);
   const classes = useStyles();
-
   const initialValues = {
     up: "",
     down: "",
@@ -51,97 +57,84 @@ const AddResultForm = ({ history }) => {
   };
 
   const handleSubmit = (values, actions) => {
-    console.log(values);
-    console.log(new Date(values.dateOfMeasurement).getTime());
-    actions.resetForm();
+    const { up, down, pulse, dateOfMeasurement } = values;
+    const time = new Date(dateOfMeasurement).getTime();
+    actions.setSubmitting(true);
+    addResult(user.uid, up, down, pulse, time)
+      .then((doc) => {
+        const newData = { up, down, pulse, dateOfMeasurement: time, docId: doc.id };
+        actions.setSubmitting(false);
+        actions.resetForm();
+        setAppData((prevState) => sortByProperty([...prevState, newData]));
+        closeModal();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
-    <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={SignupSchema}
-      >
-        {({ isSubmitting, errors, touched, values, ...rest }) => (
-          <Form className={classes.form}>
-            <Container className={classes.container} component={Paper}>
-              <Grid container spacing={2}>
-                <Grid item xs={6} sm={6}>
-                  <FormControl fullWidth>
-                    <Field
-                      autoComplete="off"
-                      name="up"
-                      type="number"
-                      as={TextField}
-                      label="Systolic"
-                      helperText={touched.up && errors.up}
-                      error={!!errors.up && touched.up}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={6} sm={6}>
-                  <FormControl fullWidth>
-                    <Field
-                      autoComplete="off"
-                      name="down"
-                      type="number"
-                      as={TextField}
-                      label="Diastolic"
-                      helperText={touched.down && errors.down}
-                      error={!!errors.down && touched.down}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <Field
-                      autoComplete="off"
-                      type="number"
-                      name="pulse"
-                      as={TextField}
-                      label="Pulse"
-                      helperText={touched.pulse && errors.pulse}
-                      error={!!errors.pulse && touched.pulse}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Field name="dateOfMeasurement" component={CustomDatePicker} />
-                </Grid>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={SignupSchema}>
+      {({ isSubmitting, errors, touched }) => (
+        <Form className={classes.form}>
+          <Container className={classes.container} component={Paper}>
+            <Grid container spacing={2}>
+              <Grid item xs={6} sm={6}>
+                <FormControl fullWidth>
+                  <Field
+                    autoComplete="off"
+                    name="up"
+                    type="number"
+                    as={TextField}
+                    label="Systolic"
+                    helperText={touched.up && errors.up}
+                    error={!!errors.up && touched.up}
+                  />
+                </FormControl>
               </Grid>
-
-              <div>
-                <Button
-                  className={classes.button}
-                  color="primary"
-                  variant="contained"
-                  type="submit"
-                  disabled={isSubmitting}
-                >
-                  Add
-                </Button>
-                <Typography variant="caption" display="block">
-                  Dont have an account?{" "}
-                  <span>
-                    <MuiLink href="#" component={Link} to="/signup">
-                      Sign up
-                    </MuiLink>
-                  </span>
-                </Typography>
-                {/* <pre>{JSON.stringify(values, null, 4)}</pre>
-                <h4>errors</h4>
-                <pre>{JSON.stringify(errors, null, 4)}</pre>
-                <h4>touched</h4>
-                <pre>{JSON.stringify(touched, null, 4)}</pre>
-                <h4>rest</h4>
-                <pre>{JSON.stringify(rest, null, 4)}</pre> */}
-              </div>
-            </Container>
-          </Form>
-        )}
-      </Formik>
-    </>
+              <Grid item xs={6} sm={6}>
+                <FormControl fullWidth>
+                  <Field
+                    autoComplete="off"
+                    name="down"
+                    type="number"
+                    as={TextField}
+                    label="Diastolic"
+                    helperText={touched.down && errors.down}
+                    error={!!errors.down && touched.down}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <Field
+                    autoComplete="off"
+                    type="number"
+                    name="pulse"
+                    as={TextField}
+                    label="Pulse"
+                    helperText={touched.pulse && errors.pulse}
+                    error={!!errors.pulse && touched.pulse}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Field name="dateOfMeasurement" component={CustomDatePicker} />
+              </Grid>
+            </Grid>
+            <Button
+              className={classes.button}
+              color="primary"
+              variant="contained"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              Add
+            </Button>
+          </Container>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

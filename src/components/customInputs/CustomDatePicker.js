@@ -1,7 +1,7 @@
 import React from "react";
-import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
-import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { MobileDateTimePicker, LocalizationProvider } from "@material-ui/pickers";
+import { TextField } from "@material-ui/core";
+import MomentUtils from "@material-ui/pickers/adapter/moment";
 
 const CustomDatePicker = ({ field, form }) => {
   const handleDateChange = (date) => {
@@ -10,21 +10,22 @@ const CustomDatePicker = ({ field, form }) => {
   const currentError = form.errors[field.name];
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDateTimePicker
+    <LocalizationProvider dateAdapter={MomentUtils}>
+      <MobileDateTimePicker
+        renderInput={(props) => <TextField {...props} />}
         name={field.name}
         value={field.value}
         onChange={handleDateChange}
         label="Time of measurement"
         showTodayButton
-        format="yyyy/MM/dd HH:mm"
+        inputFormat="YYYY/MM/DD HH:mm"
         fullWidth
         ampm={false}
         allowKeyboardControl
         helperText={currentError}
         error={Boolean(currentError)}
       />
-    </MuiPickersUtilsProvider>
+    </LocalizationProvider>
   );
 };
 

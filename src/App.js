@@ -8,13 +8,13 @@ import MainContent from "./layout/MainContent";
 import Home from "./pages/home";
 import Charts from "./pages/charts";
 import History from "./pages/history";
-import DataContextProvider from "./helpers/DataContextProvider";
+import DataContextProvider from "./database/DataContextProvider";
 import ThemeContextProvider from "./layout/ThemeContextProvider";
 import { AuthContext } from "./auth/AuthContextProvider";
 import Signup from "./pages/signup";
 import Login from "./pages/login";
 import PrivateRoute from "./components/PrivateRoute";
-import AddResultForm from "./components/forms/AddResultForm";
+import AddMeasurement from "./components/AddMeasurement";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -37,8 +37,8 @@ function App() {
                 </Route>
                 <Route path="/login">{user ? <Redirect push to="/" /> : <Login />}</Route>
               </Switch>
-              <AddResultForm />
             </MainContent>
+            {user && <AddMeasurement />}
             {user && <BottomMenu />}
           </Grid>
         </DataContextProvider>
@@ -46,5 +46,5 @@ function App() {
     </Router>
   );
 }
-
+//
 export default App;

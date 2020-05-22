@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import * as firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
-import { fbConfig } from "./fbConfig";
+import fbConfig from "./fbConfig";
 
 firebase.initializeApp(fbConfig);
 

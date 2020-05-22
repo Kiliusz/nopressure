@@ -16,11 +16,7 @@
 
 <!-- ## firebase firestore users collection with results db -->
 
-## Add button
-
-    ### addon opens modal
-    ### 4 inputs (3x number (up, down, pulse) 1x datepicker with deafault time = now )
-    ### some validation
+<!-- ## Add button -->
 
 ## manage account page
 
