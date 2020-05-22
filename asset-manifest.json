@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/nopressure/static/css/main.2a57acdd.chunk.css",
+    "main.js": "/nopressure/static/js/main.48934528.chunk.js",
+    "main.js.map": "/nopressure/static/js/main.48934528.chunk.js.map",
+    "runtime-main.js": "/nopressure/static/js/runtime-main.c31c5a33.js",
+    "runtime-main.js.map": "/nopressure/static/js/runtime-main.c31c5a33.js.map",
+    "static/js/2.0c10411c.chunk.js": "/nopressure/static/js/2.0c10411c.chunk.js",
+    "static/js/2.0c10411c.chunk.js.map": "/nopressure/static/js/2.0c10411c.chunk.js.map",
+    "index.html": "/nopressure/index.html",
+    "precache-manifest.7a37adc01bb5aa54f518f08a188fe0de.js": "/nopressure/precache-manifest.7a37adc01bb5aa54f518f08a188fe0de.js",
+    "service-worker.js": "/nopressure/service-worker.js",
+    "static/css/main.2a57acdd.chunk.css.map": "/nopressure/static/css/main.2a57acdd.chunk.css.map",
+    "static/js/2.0c10411c.chunk.js.LICENSE.txt": "/nopressure/static/js/2.0c10411c.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/nopressure/static/media/logo.10287409.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c31c5a33.js",
+    "static/js/2.0c10411c.chunk.js",
+    "static/css/main.2a57acdd.chunk.css",
+    "static/js/main.48934528.chunk.js"
+  ]
+}
