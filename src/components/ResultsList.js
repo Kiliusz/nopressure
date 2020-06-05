@@ -13,6 +13,7 @@ const ResultsList = ({ data }) => {
           firstMonthInRow={index === 0 ? dateOfMeasurement : false}
           monthChange={monthChange}
           key={docId}
+          docId={docId}
           upPressure={parseFloat(up)}
           downPressure={parseFloat(down)}
           pulse={parseFloat(pulse)}

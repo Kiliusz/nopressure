@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { withRouter } from "react-router-dom";
 import { Tooltip, IconButton } from "@material-ui/core";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { auth } from "../auth/AuthContextProvider";
+import { DataContext } from "../database/DataContextProvider";
 
 const LogoutButton = ({ history }) => {
+  const { setAppData } = useContext(DataContext);
   const handleClick = () => {
-    auth.signOut().then(() => history.push("/"));
+    auth.signOut().then(() => {
+      history.push("/");
+      setAppData([]);
+    });
   };
 
   return (

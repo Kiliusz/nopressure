@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -16,8 +16,9 @@ import CustomCheckbox from "../customInputs/CustomCheckBox";
 import CustomRadioInput from "../customInputs/CustomRadioInput";
 import { auth } from "../../auth/AuthContextProvider";
 import { makeUser } from "../../database/databaseHelpers";
+import CustomSnackBar from "../CustomSnackBar";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   form: {
     padding: "1em",
     textAlign: "left",
@@ -29,31 +30,38 @@ const useStyles = makeStyles({
   field: {
     marginBottom: "0.2em",
   },
-});
+  snackContainer: {
+    padding: "0.3em 1em",
+    display: "flex",
+    backgroundColor: theme.palette.error.main,
+    borderRadius: "1em",
+  },
+  snackText: {
+    color: "white",
+    marginRight: "1em",
+  },
+}));
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string().min(2, "Too Short!").max(15, "Too Long!").required("Required"),
   email: Yup.string().email().required("Required"),
-  password: Yup.string()
-    .required("Required")
-    .min(8, "Password must be at least 8 characters"),
-  confirmPassword: Yup.string().oneOf(
-    [Yup.ref("password"), null],
-    "Passwords must match",
-  ),
+  password: Yup.string().required("Required").min(8, "Password must be at least 8 characters"),
+  confirmPassword: Yup.string().oneOf([Yup.ref("password"), null], "Passwords must match"),
   acceptTerms: Yup.bool().oneOf([true], "You have to accept terms and conditions"),
   gender: Yup.string().required("You have to select one option"),
 });
 
 const SignUpForm = ({ history }) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
   const initialValues = {
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    acceptTerms: false,
     gender: "",
+    acceptTerms: false,
   };
 
   const handleSubmit = (values, actions) => {
@@ -67,18 +75,16 @@ const SignUpForm = ({ history }) => {
         history.push("/");
       })
       .catch((err) => {
-        console.log(err);
+        setOpen(true);
+        setError(err.message);
+        // actions.resetForm();
         actions.setSubmitting(false);
       });
   };
 
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={SignupSchema}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={SignupSchema}>
         {({ isSubmitting, errors, touched }) => (
           <Form className={classes.form}>
             <FormControl fullWidth>
@@ -151,9 +157,7 @@ const SignUpForm = ({ history }) => {
                   name="acceptTerms"
                   label="I accept terms and conditions"
                 />
-                <FormHelperText error>
-                  {touched.acceptTerms && errors.acceptTerms}
-                </FormHelperText>
+                <FormHelperText error>{touched.acceptTerms && errors.acceptTerms}</FormHelperText>
               </FormControl>
             </div>
 
@@ -179,6 +183,7 @@ const SignUpForm = ({ history }) => {
           </Form>
         )}
       </Formik>
+      <CustomSnackBar setOpen={setOpen} open={open} msg={error} />
     </>
   );
 };

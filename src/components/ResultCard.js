@@ -1,8 +1,9 @@
 import React from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { Grid, Paper, Typography } from "@material-ui/core";
+import { Grid, Paper, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import DeleteButton from "./DeleteButton";
 
 const useStyles = makeStyles((theme) => ({
   paperResult: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
       margin: "0.3em 0em",
     },
     [theme.breakpoints.down("xs")]: {
-      padding: "0.3em 0.4em",
+      padding: "0.4em 0.4em",
       margin: "0.3em 0em",
     },
     fontSize: "1.1em",
@@ -40,10 +41,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
   monthChange: {
-    // color: "#808080",
     padding: "0.5em 2em",
     width: "100%",
-    // backgroundColor: "red",
   },
 }));
 
@@ -54,6 +53,7 @@ const ResultCard = ({
   time,
   monthChange,
   firstMonthInRow,
+  docId,
 }) => {
   const isWarning = upPressure >= 135 || downPressure >= 90 || pulse >= 90;
   const classes = useStyles();
@@ -65,9 +65,7 @@ const ResultCard = ({
         </div>
       )}
       {!!monthChange && (
-        <div className={classes.monthChange}>
-          {monthChange ? moment(time).format("MMMM") : ""}
-        </div>
+        <div className={classes.monthChange}>{monthChange ? moment(time).format("MMMM") : ""}</div>
       )}
       <Paper className={classes.paperResult}>
         {isWarning && <div className={classes.warning}>!</div>}
@@ -84,6 +82,7 @@ const ResultCard = ({
             </Typography>
           </Grid>
         </Grid>
+        <DeleteButton docId={docId} />
       </Paper>
     </>
   );

@@ -9,8 +9,7 @@ export const makeUser = (name, userId, gender, email) => {
   });
 };
 
-const resultsCollectionRef = (userId) =>
-  fstore.collection(`Results/${userId}/UserResults`);
+const resultsCollectionRef = (userId) => fstore.collection(`Results/${userId}/UserResults`);
 
 export const addResult = (userId, up, down, pulse, dateOfMeasurement) => {
   return resultsCollectionRef(userId).add({
@@ -41,3 +40,9 @@ export const getResults = async (userId, resultNumber = 10) => {
     .catch((err) => data.push(err));
   return data;
 };
+
+export const getUserInfo = (userId) => {
+  return fstore.collection("Users").doc(userId).get();
+};
+
+export const deleteResult = (userId, docId) => resultsCollectionRef(userId).doc(docId).delete();

@@ -3,7 +3,6 @@ import { Grid, makeStyles } from "@material-ui/core";
 import { DataContext } from "../database/DataContextProvider";
 import { getAllResults } from "../database/databaseHelpers";
 import { AuthContext } from "../auth/AuthContextProvider";
-import sortByProperty from "../database/dataHelpers";
 import FilterForm from "../components/forms/FilterForm";
 import ResultsList from "../components/ResultsList";
 

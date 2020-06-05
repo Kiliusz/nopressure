@@ -15,12 +15,13 @@ import Signup from "./pages/signup";
 import Login from "./pages/login";
 import PrivateRoute from "./components/PrivateRoute";
 import AddMeasurement from "./components/AddMeasurement";
+import User from "./pages/user";
 
 function App() {
   const { user } = useContext(AuthContext);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <ThemeContextProvider>
         <DataContextProvider>
           <CssBaseline />
@@ -31,10 +32,8 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <PrivateRoute path="/charts" component={Charts} />
                 <PrivateRoute path="/history" component={History} />
-                <Route path="/history" component={History} />
-                <Route path="/signup">
-                  {user ? <Redirect push to="/" /> : <Signup />}
-                </Route>
+                <PrivateRoute path="/user" component={User} />
+                <Route path="/signup">{user ? <Redirect push to="/" /> : <Signup />}</Route>
                 <Route path="/login">{user ? <Redirect push to="/" /> : <Login />}</Route>
               </Switch>
             </MainContent>

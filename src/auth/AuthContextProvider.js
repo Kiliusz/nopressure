@@ -10,6 +10,9 @@ firebase.initializeApp(fbConfig);
 export const auth = firebase.auth();
 export const fstore = firebase.firestore();
 export const AuthContext = createContext();
+export const createCredential = (email, password) => {
+  return firebase.auth.EmailAuthProvider.credential(email, password);
+};
 
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -23,9 +26,7 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    render && (
-      <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
-    )
+    render && <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>
   );
 };
 

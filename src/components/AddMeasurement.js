@@ -45,13 +45,7 @@ const AddMeasurement = ({ width }) => {
           <AddResultForm closeModal={handleClose} />
         </>
       </Modal>
-      <Fab
-        onClick={handleOpen}
-        className={classes.button}
-        color="primary"
-        aria-label="add-measure"
-        {...buttonSize}
-      >
+      <Fab onClick={handleOpen} className={classes.button} color="primary" {...buttonSize}>
         <AddIcon />
       </Fab>
     </>

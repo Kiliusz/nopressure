@@ -6,6 +6,7 @@ import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import HomeIcon from "@material-ui/icons/Home";
 import ShowChartIcon from "@material-ui/icons/ShowChart";
 import HistoryIcon from "@material-ui/icons/History";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core";
 
@@ -31,13 +32,7 @@ const BottomMenu = ({ location }) => {
       showLabels
       className={classes.bottomNavi}
     >
-      <BottomNavigationAction
-        value="/"
-        component={Link}
-        to="/"
-        label="Home"
-        icon={<HomeIcon />}
-      />
+      <BottomNavigationAction value="/" component={Link} to="/" label="Home" icon={<HomeIcon />} />
       <BottomNavigationAction
         value="/charts"
         component={Link}
@@ -51,6 +46,13 @@ const BottomMenu = ({ location }) => {
         to="/history"
         label="History"
         icon={<HistoryIcon />}
+      />
+      <BottomNavigationAction
+        component={Link}
+        value="/user"
+        to="/user"
+        label="User"
+        icon={<AccountCircleIcon />}
       />
     </BottomNavigation>
   );

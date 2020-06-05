@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -11,6 +11,7 @@ import {
   Link as MuiLink,
 } from "@material-ui/core";
 import { auth } from "../../auth/AuthContextProvider";
+import CustomSnackBar from "../CustomSnackBar";
 
 const useStyles = makeStyles({
   form: {
@@ -25,14 +26,14 @@ const useStyles = makeStyles({
 
 const SignupSchema = Yup.object().shape({
   email: Yup.string().email().required("Required"),
-  password: Yup.string()
-    .required("Required")
-    .min(8, "Password must be at least 8 characters"),
+  password: Yup.string().required("Required").min(8, "Password must be at least 8 characters"),
 });
 
 // COMPONENT
 const LoginForm = ({ history }) => {
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const initialValues = {
     email: "",
@@ -49,6 +50,8 @@ const LoginForm = ({ history }) => {
         history.push("/");
       })
       .catch((err) => {
+        setOpen(true);
+        setError("Invalid username or password");
         console.log(err);
         actions.setSubmitting(false);
       });
@@ -56,11 +59,7 @@ const LoginForm = ({ history }) => {
 
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={handleSubmit}
-        validationSchema={SignupSchema}
-      >
+      <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={SignupSchema}>
         {({ isSubmitting, errors, touched }) => (
           <Form className={classes.form}>
             <FormControl fullWidth margin="normal">
@@ -105,6 +104,7 @@ const LoginForm = ({ history }) => {
           </Form>
         )}
       </Formik>
+      <CustomSnackBar setOpen={setOpen} open={open} msg={error} />
     </>
   );
 };
