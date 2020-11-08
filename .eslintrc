@@ -1,6 +1,7 @@
 {
   "extends": ["react-app", "airbnb"],
   "rules": {
+    "react-hooks/exhaustive-deps": "off",
     "arrow-body-style": "off",
     "no-unused-vars": "warn",
     "quotes": [2, "double", "avoid-escape"],

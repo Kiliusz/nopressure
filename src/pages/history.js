@@ -28,7 +28,7 @@ const History = () => {
         })
         .catch((err) => console.log(err));
     }
-  }, []);
+  }, [setAppData, user.uid, shouldGetData]);
 
   return (
     <>

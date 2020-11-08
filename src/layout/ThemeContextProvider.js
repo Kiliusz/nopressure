@@ -13,6 +13,11 @@ const ThemeContextProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(darkModeLocSt);
 
   const theme = createMuiTheme({
+    overrides: {
+      MuiTooltip: {
+        tooltip: { fontSize: "0.9em" },
+      },
+    },
     darkMode,
     setDarkMode,
     palette: {

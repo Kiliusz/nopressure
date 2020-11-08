@@ -28,7 +28,6 @@ const Home = () => {
 
   useEffect(() => {
     if (user && (!appData || appData.length < 11)) {
-      console.log("useffect datacontext");
       getResults(user.uid, 10)
         .then((results) => {
           setAppData(results);

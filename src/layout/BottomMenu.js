@@ -49,8 +49,8 @@ const BottomMenu = ({ location }) => {
       />
       <BottomNavigationAction
         component={Link}
-        value="/user"
-        to="/user"
+        value="/userinfo"
+        to="/userinfo"
         label="User"
         icon={<AccountCircleIcon />}
       />

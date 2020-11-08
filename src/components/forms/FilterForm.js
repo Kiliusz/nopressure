@@ -34,7 +34,6 @@ const FilterForm = ({ appData, setDisplayData }) => {
   useEffect(() => {
     if (appData && appData.length > 0) {
       handleFilterChange();
-      console.log("useEffect handleFilter");
     }
   }, [appData, selectedDate, greater, less]);
 

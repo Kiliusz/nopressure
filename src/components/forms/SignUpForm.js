@@ -183,7 +183,7 @@ const SignUpForm = ({ history }) => {
           </Form>
         )}
       </Formik>
-      <CustomSnackBar setOpen={setOpen} open={open} msg={error} />
+      <CustomSnackBar setOpen={setOpen} open={open} msg={error} color="error" />
     </>
   );
 };

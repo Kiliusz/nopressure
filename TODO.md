@@ -20,6 +20,12 @@
 
 <!-- ## Login/signup feedback from server to client -->
 
-## manage account page
+<!-- ## manage account page -->
 
-## charts using some JS charts library
+## Provide appData to charts
+
+## Set x-axis values to proper date format (momentjs)
+
+## Write firebase rules
+
+## chceck errors in console

@@ -15,7 +15,7 @@ import Signup from "./pages/signup";
 import Login from "./pages/login";
 import PrivateRoute from "./components/PrivateRoute";
 import AddMeasurement from "./components/AddMeasurement";
-import User from "./pages/user";
+import User from "./pages/userinfo";
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -32,7 +32,7 @@ function App() {
                 <Route exact path="/" component={Home} />
                 <PrivateRoute path="/charts" component={Charts} />
                 <PrivateRoute path="/history" component={History} />
-                <PrivateRoute path="/user" component={User} />
+                <PrivateRoute path="/userinfo" component={User} />
                 <Route path="/signup">{user ? <Redirect push to="/" /> : <Signup />}</Route>
                 <Route path="/login">{user ? <Redirect push to="/" /> : <Login />}</Route>
               </Switch>
@@ -45,5 +45,5 @@ function App() {
     </Router>
   );
 }
-//
+
 export default App;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles, Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 
@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
   snackContainer: {
     padding: "0.3em 1em",
     display: "flex",
-    backgroundColor: theme.palette.error.main,
+    backgroundColor: ({ color }) => theme.palette[color].main,
     borderRadius: "1em",
   },
   snackText: {
@@ -15,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomSnackBar = ({ open, msg, setOpen }) => {
-  const classes = useStyles();
+const CustomSnackBar = ({ open, msg, setOpen, color }) => {
+  const classes = useStyles({ color });
 
   const handleClose = () => setOpen(false);
 

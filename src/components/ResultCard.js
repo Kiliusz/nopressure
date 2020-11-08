@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import PropTypes from "prop-types";
-import { Grid, Paper, Typography, IconButton } from "@material-ui/core";
+import { Grid, Paper, Typography, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DeleteButton from "./DeleteButton";
 
@@ -68,7 +68,11 @@ const ResultCard = ({
         <div className={classes.monthChange}>{monthChange ? moment(time).format("MMMM") : ""}</div>
       )}
       <Paper className={classes.paperResult}>
-        {isWarning && <div className={classes.warning}>!</div>}
+        {isWarning && (
+          <Tooltip title="Blood pressure above 135/90 and pulse above 90" placement="top-start">
+            <div className={classes.warning}>!</div>
+          </Tooltip>
+        )}
         <Grid container justify="space-evenly" spacing={1}>
           <Grid item>
             {upPressure} / {downPressure} <span className={classes.unitFont}>mmHG</span>

@@ -14,8 +14,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       fontSize: "2em",
     },
-    color:
-      theme.palette.type === "light" ? theme.palette.grey[700] : theme.palette.grey[100],
+    color: theme.palette.type === "light" ? theme.palette.grey[700] : theme.palette.grey[100],
   },
 }));
 
